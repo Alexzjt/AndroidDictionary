@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.dataStructure.BKTree;
+import com.dataStructure.SpellChecker;
+import com.translate.TranslateUtil;
+
 import java.util.List;
 
 /**
@@ -37,5 +41,9 @@ public class DetailActivity extends Activity {
                 startActivity(intent);
             }
         });
+        //BKTree<String> bkTree = SpellChecker.getBKTree();
+        String string=getIntent().getExtras().getString("content");
+        String result=TranslateUtil.tarnslate(string);
+        tvDetail.setText(result);
     }
 }

@@ -102,6 +102,13 @@ public class BKTree<T>{
         return results;
     }
 
+    /**
+     * let gc do it's work;
+     */
+    public void clear(){
+        root=null;
+    }
+
     private static final class Node<T> {
 
         private final T value;
