@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by changdengkai on 2016/9/30.
+ * Created by zhangjingtao on 2016/9/30.
  */
 public class DetailActivity extends Activity {
 

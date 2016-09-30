@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 /**
- * Created by changdengkai on 2016/9/30.
+ * Created by zhangjingtao on 2016/9/30.
  */
 public class HomeActivity extends Activity{
 
