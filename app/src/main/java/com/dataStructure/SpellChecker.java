@@ -22,7 +22,7 @@ public class SpellChecker {
         MetricSpace<String> ms = new LevensteinDistance();
         BKTree<String> bk = new BKTree<String>(ms);
 
-        getWordsFromTxt(bk,"C:\\Users\\zhangjingtao\\Documents\\File\\dictionary.txt");
+        getWordsFromTxt(bk,"");
 
         Scanner cin=new Scanner(System.in);
         while(cin.hasNext()){
@@ -35,7 +35,7 @@ public class SpellChecker {
 
 
     /**
-     * 一个阅读文本文件的函数，把所有单词都放入bk树种
+     * 一个阅读文本文件的函数，把所有单词都放入bk树中
      * @param bk
      * @param path
      */
@@ -47,15 +47,13 @@ public class SpellChecker {
             while((line=reader.readLine())!=null){
                 bk.put(line);
             }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
+        } catch (Exception e){
             e.printStackTrace();
         }
         finally{
             try {
                 reader.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
