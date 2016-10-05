@@ -3,6 +3,7 @@ package com.test;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -46,9 +47,26 @@ public class DetailActivity extends Activity {
         });
 
         String string=getIntent().getExtras().getString("content");
-        //String result=TranslateUtil.tarnslate(string);
-        //tvDetail.setText(result);
-
+        MyTask myTask=new MyTask();
+        myTask.execute(string);
         btnFirst.setText(HomeActivity.bkTree.getMostSimilar(string));
+    }
+
+    private class MyTask extends AsyncTask<String, Integer, String> {
+        @Override
+        protected void onPreExecute() {
+            tvDetail.setText("正在获取释义");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String result=TranslateUtil.tarnslate(params[0]);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            tvDetail.setText(s);
+        }
     }
 }
