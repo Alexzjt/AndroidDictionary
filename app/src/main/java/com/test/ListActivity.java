@@ -37,8 +37,14 @@ public class ListActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+
+
         String string=getIntent().getExtras().getString("content");
         etConten.setText(string);
+
+
+
         lvList.setAdapter(new ArrayAdapter<String>(this,R.layout.item_list,HomeActivity.bkTree.sorted_query(string,1)));
     }
 

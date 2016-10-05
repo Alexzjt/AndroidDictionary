@@ -56,13 +56,24 @@ public class DetailActivity extends Activity {
             @Override
             public void onClick(View v) {
                 etConten.setText(btnFirst.getText());
+                btnSearch.performClick();
             }
         });
+
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MyTask myTask=new MyTask();
+                myTask.execute(etConten.getText().toString());
+                btnFirst.setText(HomeActivity.bkTree.getMostSimilar(etConten.getText().toString()));
+            }
+        });
+
         String string=getIntent().getExtras().getString("content");
         etConten.setText(string);
-        MyTask myTask=new MyTask();
-        myTask.execute(string);
-        btnFirst.setText(HomeActivity.bkTree.getMostSimilar(string));
+        btnSearch.performClick();
+
     }
 
     private class MyTask extends AsyncTask<String, Integer, String> {
