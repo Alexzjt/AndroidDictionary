@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dataStructure.BKTree;
@@ -25,7 +26,8 @@ public class DetailActivity extends Activity {
     TextView tvDetail;
     Button btnFirst;
     Button btnMore;
-
+    EditText etConten;
+    Button btnSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +37,29 @@ public class DetailActivity extends Activity {
         tvDetail = (TextView) findViewById(R.id.tv_detail);
         btnFirst = (Button) findViewById(R.id.btn_first);
         btnMore = (Button) findViewById(R.id.btn_more);
+        etConten = (EditText) findViewById(R.id.et_content);
+        btnSearch = (Button) findViewById(R.id.btn_search);
 
         btnMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(DetailActivity.this,ListActivity.class);
-                intent.putExtra("content","");
-                startActivity(intent);
+                if (!TextUtils.isEmpty(etConten.getText())) {
+                    Intent intent = new Intent();
+                    intent.setClass(DetailActivity.this,ListActivity.class);
+                    intent.putExtra("content",etConten.getText().toString());
+                    startActivity(intent);
+                }
             }
         });
 
+        btnFirst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etConten.setText(btnFirst.getText());
+            }
+        });
         String string=getIntent().getExtras().getString("content");
+        etConten.setText(string);
         MyTask myTask=new MyTask();
         myTask.execute(string);
         btnFirst.setText(HomeActivity.bkTree.getMostSimilar(string));
@@ -61,6 +74,9 @@ public class DetailActivity extends Activity {
         @Override
         protected String doInBackground(String... params) {
             String result=TranslateUtil.tarnslate(params[0]);
+            if(params[0].equals(result)){
+                return "您的输入有误，请查看下方候选单词";
+            }
             return result;
         }
 

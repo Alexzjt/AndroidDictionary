@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 /**
@@ -14,6 +16,8 @@ import android.widget.ListView;
 public class ListActivity extends Activity {
 
     ListView lvList;
+    EditText etConten;
+    Button btnSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +25,8 @@ public class ListActivity extends Activity {
         setContentView(R.layout.activity_list);
 
         lvList = (ListView) findViewById(R.id.lv_list);
-        lvList.setAdapter(new ArrayAdapter<String>(this,R.layout.item_list,new String[]{"单词1","单词2","单词3","单词4","单词5"}));
+        etConten = (EditText) findViewById(R.id.et_content);
+        btnSearch = (Button) findViewById(R.id.btn_search);
 
         lvList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -32,7 +37,9 @@ public class ListActivity extends Activity {
                 startActivity(intent);
             }
         });
-
+        String string=getIntent().getExtras().getString("content");
+        etConten.setText(string);
+        lvList.setAdapter(new ArrayAdapter<String>(this,R.layout.item_list,HomeActivity.bkTree.sorted_query(string,1)));
     }
 
 }

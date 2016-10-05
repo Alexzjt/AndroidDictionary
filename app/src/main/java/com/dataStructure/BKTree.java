@@ -9,10 +9,12 @@ import com.util.Config;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -109,10 +111,40 @@ public class BKTree<T>{
     }
 
     /**
+     * 查询相似元素
+     *
+     * @param term
+     *         待查询的元素
+     * @param radius
+     *         相似的距离范围
+     * @return
+     *         满足距离范围的所有元素
+     */
+    public List<T> sorted_query(T term, double radius) {
+
+        Set<T> results = new HashSet<T>();
+        while(results.isEmpty()){
+            results=query(term,radius++);
+        }
+        List<T> list=new ArrayList<T>(results);
+        return list;
+    }
+
+    /**
      * let gc do it's work;
      */
     public void clear(){
         root=null;
+    }
+
+    /**
+     * 判断BK树种是否存在目标
+     * @param target
+     * @return
+     */
+    public boolean contains(T target){
+        Set<T> set=query(target,0);
+        return !set.isEmpty();
     }
 
     public T getMostSimilar(T term){
