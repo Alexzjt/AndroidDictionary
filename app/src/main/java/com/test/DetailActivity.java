@@ -66,6 +66,8 @@ public class DetailActivity extends Activity {
 
                 MyTask myTask=new MyTask();
                 myTask.execute(etConten.getText().toString());
+                btnFirst.setText("正在获取候选词");
+                while(HomeActivity.bkTree==null){}
                 btnFirst.setText(HomeActivity.bkTree.getMostSimilar(etConten.getText().toString()));
             }
         });

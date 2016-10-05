@@ -3,6 +3,7 @@ package com.test;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,12 +39,20 @@ public class ListActivity extends Activity {
             }
         });
 
-
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(etConten.getText())) {
+                    Intent intent = new Intent();
+                    intent.setClass(ListActivity.this,DetailActivity.class);
+                    intent.putExtra("content",etConten.getText().toString());
+                    startActivity(intent);
+                }
+            }
+        });
 
         String string=getIntent().getExtras().getString("content");
         etConten.setText(string);
-
-
 
         lvList.setAdapter(new ArrayAdapter<String>(this,R.layout.item_list,HomeActivity.bkTree.sorted_query(string,1)));
     }
