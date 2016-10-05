@@ -78,6 +78,20 @@ public class DetailActivity extends Activity {
 
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String string=getIntent().getExtras().getString("content");
+        etConten.setText(string);
+        btnSearch.performClick();
+    }
+
     private class MyTask extends AsyncTask<String, Integer, String> {
         @Override
         protected void onPreExecute() {

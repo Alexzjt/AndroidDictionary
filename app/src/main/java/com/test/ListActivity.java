@@ -34,7 +34,8 @@ public class ListActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent();
                 intent.setClass(ListActivity.this,DetailActivity.class);
-                intent.putExtra("content","");
+                String temp=lvList.getItemAtPosition(position).toString();
+                intent.putExtra("content",temp);
                 startActivity(intent);
             }
         });
@@ -54,6 +55,14 @@ public class ListActivity extends Activity {
         String string=getIntent().getExtras().getString("content");
         etConten.setText(string);
 
+        lvList.setAdapter(new ArrayAdapter<String>(this,R.layout.item_list,HomeActivity.bkTree.sorted_query(string,1)));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String string=getIntent().getExtras().getString("content");
+        etConten.setText(string);
         lvList.setAdapter(new ArrayAdapter<String>(this,R.layout.item_list,HomeActivity.bkTree.sorted_query(string,1)));
     }
 
