@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.dataStructure.BKTree;
+import com.dataStructure.SpellChecker;
+
 /**
  * Created by zhangjingtao on 2016/9/30.
  */
@@ -15,6 +18,7 @@ public class HomeActivity extends Activity{
 
     EditText etConten;
     Button btnSearch;
+    public static BKTree<String> bkTree = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,12 @@ public class HomeActivity extends Activity{
                 }
             }
         });
+        try{
+        bkTree=SpellChecker.getBKTree(this);
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
 }

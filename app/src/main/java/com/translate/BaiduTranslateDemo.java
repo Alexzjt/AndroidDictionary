@@ -69,8 +69,8 @@ public class BaiduTranslateDemo{
         nvps.add(new BasicNameValuePair("appid", appId));
         nvps.add(new BasicNameValuePair("salt", String.valueOf(salt)));
         nvps.add(new BasicNameValuePair("sign", md5));
-        httpost.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8.toString()));
-
+        //httpost.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));
+        httpost.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
         //创建httpclient链接，并执行
         CloseableHttpClient httpclient = HttpClients.createDefault();
         CloseableHttpResponse response = httpclient.execute(httpost);

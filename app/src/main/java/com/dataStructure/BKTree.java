@@ -4,9 +4,15 @@ package com.dataStructure;
  * Created by zhangjingtao on 2016/9/30.
  */
 
+import com.util.Config;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -107,6 +113,21 @@ public class BKTree<T>{
      */
     public void clear(){
         root=null;
+    }
+
+    public T getMostSimilar(T term){
+        int radius=1;
+        Set<T> set=query(term,1);
+        while(set.isEmpty()){
+            set=query(term,++radius);
+        }
+        for(T item : set){
+            if(item.toString().length()==term.toString().length()){
+                return item;
+            }
+        }
+        Iterator<T> iterator=set.iterator();
+        return iterator.next();
     }
 
     private static final class Node<T> {

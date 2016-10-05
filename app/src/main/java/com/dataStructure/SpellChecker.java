@@ -4,11 +4,16 @@ package com.dataStructure;
  * Created by zhangjingtao on 2016/9/30.
  */
 
+import android.app.Activity;
+import android.content.res.AssetManager;
+
 import com.util.Config;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -23,12 +28,14 @@ public class SpellChecker {
     /**
      * 一个阅读文本文件的函数，把所有单词都放入bk树中
      * @param bk
-     * @param path
+     * @param inputStream
      */
-    private static void getWordsFromTxt(BKTree<String> bk,String path){
+    private static void getWordsFromTxt(BKTree<String> bk, InputStream inputStream){
+
+
         BufferedReader reader=null;
         try {
-            reader=new BufferedReader(new FileReader(path));
+            reader=new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while((line=reader.readLine())!=null){
                 bk.put(line);
@@ -45,9 +52,10 @@ public class SpellChecker {
         }
     }
 
-    public static BKTree<String> getBKTree(){
+    public static BKTree<String> getBKTree(Activity activity) throws Exception{
         bk.clear();
-        getWordsFromTxt(bk, Config.DICTIONARY);
+        AssetManager assetManager=activity.getAssets();
+        getWordsFromTxt(bk, assetManager.open(Config.DICTIONARY));
         return bk;
     }
 
@@ -61,22 +69,22 @@ public class SpellChecker {
         return true;
     }
 
-    public static void main(String args[]) {
-        double radius = 1.5; // 编辑距离阈值
-        String term = "helli"; // 待纠错的词
-
-        // 创建BK树
-        MetricSpace<String> ms = new LevensteinDistance();
-        BKTree<String> bk = new BKTree<String>(ms);
-
-        getWordsFromTxt(bk, Config.DICTIONARY);
-
-        Scanner cin=new Scanner(System.in);
-        while(cin.hasNext()){
-            radius=cin.nextDouble();
-            term=cin.next();
-            Set<String> set = bk.query(term, radius);
-            System.out.println(set.toString());
-        }
-    }
+//    public static void main(String args[]) {
+//        double radius = 1.5; // 编辑距离阈值
+//        String term = "helli"; // 待纠错的词
+//
+//        // 创建BK树
+//        MetricSpace<String> ms = new LevensteinDistance();
+//        BKTree<String> bk = new BKTree<String>(ms);
+//
+//        getWordsFromTxt(bk, Config.DICTIONARY);
+//
+//        Scanner cin=new Scanner(System.in);
+//        while(cin.hasNext()){
+//            radius=cin.nextDouble();
+//            term=cin.next();
+//            Set<String> set = bk.query(term, radius);
+//            System.out.println(set.toString());
+//        }
+//    }
 }

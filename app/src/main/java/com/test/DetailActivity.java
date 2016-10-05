@@ -2,7 +2,9 @@ package com.test;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +14,7 @@ import com.dataStructure.SpellChecker;
 import com.translate.TranslateUtil;
 
 import java.util.List;
+import java.io.*;
 
 /**
  * Created by zhangjingtao on 2016/9/30.
@@ -41,9 +44,11 @@ public class DetailActivity extends Activity {
                 startActivity(intent);
             }
         });
-        //BKTree<String> bkTree = SpellChecker.getBKTree();
+
         String string=getIntent().getExtras().getString("content");
-        String result=TranslateUtil.tarnslate(string);
-        tvDetail.setText(result);
+        //String result=TranslateUtil.tarnslate(string);
+        //tvDetail.setText(result);
+
+        btnFirst.setText(HomeActivity.bkTree.getMostSimilar(string));
     }
 }
