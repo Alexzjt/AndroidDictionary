@@ -2,6 +2,7 @@ package com.test;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -40,12 +41,20 @@ public class HomeActivity extends Activity{
                 }
             }
         });
-        try{
-        bkTree=SpellChecker.getBKTree(this);
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
+        MyTask myTask=new MyTask();
+        myTask.execute(this);
+    }
+    private class MyTask extends AsyncTask<Activity, Integer,Boolean> {
+        @Override
+        protected Boolean doInBackground(Activity... params) {
+            try{
+                bkTree=SpellChecker.getBKTree(params[0]);
+                return true;
+            }
+            catch (Exception ex){
+                ex.printStackTrace();
+            }
+            return false;
         }
     }
-
 }
