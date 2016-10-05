@@ -65,7 +65,7 @@ public class DetailActivity extends Activity {
             public void onClick(View v) {
 
                 MyTask myTask=new MyTask();
-                myTask.execute(etConten.getText().toString());
+                myTask.execute(etConten.getText().toString().trim());
                 btnFirst.setText("正在获取候选词");
                 while(HomeActivity.bkTree==null){}
                 btnFirst.setText(HomeActivity.bkTree.getMostSimilar(etConten.getText().toString()));
@@ -100,11 +100,13 @@ public class DetailActivity extends Activity {
 
         @Override
         protected String doInBackground(String... params) {
-            String result=TranslateUtil.tarnslate(params[0]);
-            if(params[0].equals(result)){
-                return "您的输入有误，请查看下方候选单词";
+            if(SpellChecker.checkWord(params[0])) {
+                String result = TranslateUtil.tarnslate(params[0]);
+                if (!params[0].equals(result)) {
+                    return result;
+                }
             }
-            return result;
+            return "您的输入有误，请查看下方候选单词";
         }
 
         @Override
