@@ -107,11 +107,14 @@ public class BKTree<T>{
             root.query(metricSpace, term, radius, results);
         }
 
+        if(radius!=0)
+            results.remove(term);  //若set中存在被查找的元素term，则删除之
+
         return results;
     }
 
     /**
-     * 查询相似元素
+     * 查询相似元素,当查找范围内无元素时会扩大查找范围
      *
      * @param term
      *         待查询的元素
@@ -148,18 +151,8 @@ public class BKTree<T>{
     }
 
     public T getMostSimilar(T term){
-        int radius=1;
-        Set<T> set=query(term,1);
-        while(set.isEmpty()){
-            set=query(term,++radius);
-        }
-        for(T item : set){
-            if(item.toString().length()==term.toString().length()){
-                return item;
-            }
-        }
-        Iterator<T> iterator=set.iterator();
-        return iterator.next();
+        List<T> list = sorted_query(term,1);
+        return list.get(0);
     }
 
     private static final class Node<T> {

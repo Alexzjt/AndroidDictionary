@@ -100,7 +100,7 @@ public class DetailActivity extends Activity {
 
         @Override
         protected String doInBackground(String... params) {
-            if(SpellChecker.checkWord(params[0])) {
+            if(HomeActivity.bkTree.contains(params[0])||SpellChecker.checkWord(params[0])) {
                 String result = TranslateUtil.tarnslate(params[0]);
                 if (!params[0].equals(result)) {
                     return result;
