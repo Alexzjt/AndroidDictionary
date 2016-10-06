@@ -5,5 +5,6 @@ package com.util;
  */
 
 public class Config {
-    public static String DICTIONARY="dictionary.txt";
+    public static final String DICTIONARY="dictionary.txt";
+    public static final int DISTANCE=KeyboardSingleton.getInstance().maxDistance;
 }

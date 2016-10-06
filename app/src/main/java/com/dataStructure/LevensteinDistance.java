@@ -1,5 +1,6 @@
 package com.dataStructure;
 
+import com.util.Config;
 /**
  * Created by zhangjingtao on 2016/9/30.
  */
