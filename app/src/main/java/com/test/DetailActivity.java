@@ -43,6 +43,7 @@ public class DetailActivity extends Activity {
         btnMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                while(HomeActivity.wordFrequencyMap==null){}
                 if (!TextUtils.isEmpty(etConten.getText())) {
                     Intent intent = new Intent();
                     intent.setClass(DetailActivity.this,ListActivity.class);

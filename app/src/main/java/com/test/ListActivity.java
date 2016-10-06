@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.dataStructure.SpellChecker;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +26,7 @@ public class ListActivity extends Activity{
     EditText etConten;
     Button btnSearch;
     Button btnMore;
-    List<String> list;
+    List<String> list=new ArrayList<String>();
     ArrayAdapter<String> adapter;
 
     @Override
@@ -60,31 +63,34 @@ public class ListActivity extends Activity{
             }
         });
 
-        String string=getIntent().getExtras().getString("content");
-        etConten.setText(string);
-        list = HomeActivity.bkTree.sorted_query(string,radius);
-        adapter = new ArrayAdapter<String>(this,R.layout.item_list,list);
-        lvList.setAdapter(adapter);
-
         btnMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String string=getIntent().getExtras().getString("content");
-                List<String> temp = HomeActivity.bkTree.sorted_query(string,++radius);
+                List<String> temp = HomeActivity.bkTree.sorted_query(string,radius++);
+                SpellChecker.sortList(temp,HomeActivity.wordFrequencyMap,string);
                 list.addAll(temp);
                 //list.clear();
                 adapter.notifyDataSetChanged();
                 lvList.setAdapter(adapter);
             }
         });
-    }
 
-    @Override
-    protected void onResume() {
-        radius=1;
-        super.onResume();
         String string=getIntent().getExtras().getString("content");
         etConten.setText(string);
-        lvList.setAdapter(new ArrayAdapter<String>(this,R.layout.item_list,HomeActivity.bkTree.sorted_query(string,1)));
+//        list = HomeActivity.bkTree.sorted_query(string,radius);
+        adapter = new ArrayAdapter<String>(this,R.layout.item_list,list);
+        lvList.setAdapter(adapter);
+        btnMore.performClick();
+
     }
+
+//    @Override
+//    protected void onResume() {
+//        radius=1;
+//        super.onResume();
+//        String string=getIntent().getExtras().getString("content");
+//        etConten.setText(string);
+//        lvList.setAdapter(new ArrayAdapter<String>(this,R.layout.item_list,HomeActivity.bkTree.sorted_query(string,1)));
+//    }
 }

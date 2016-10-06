@@ -14,6 +14,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -23,6 +28,7 @@ import java.util.Set;
 public class SpellChecker {
     private static MetricSpace ms = new LevensteinDistance();
     private static BKTree bk = new BKTree(ms);
+    private static HashMap<String,Integer> map=new HashMap<String, Integer>();
 
 
     /**
@@ -31,14 +37,39 @@ public class SpellChecker {
      * @param inputStream
      */
     private static void getWordsFromTxt(BKTree bk, InputStream inputStream){
-
-
         BufferedReader reader=null;
         try {
             reader=new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while((line=reader.readLine())!=null){
                 bk.put(line);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 一个阅读文本文件的函数，读词频表放入HashMap
+     * @param map1
+     * @param inputStream
+     */
+    private static void getWordFrequencyFromTxt(HashMap<String,Integer> map1, InputStream inputStream){
+        BufferedReader reader=null;
+        int rank=0;
+        try {
+            reader=new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while((line=reader.readLine())!=null){
+                if(!map1.containsKey(line))
+                    map1.put(line,rank++);
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -59,6 +90,13 @@ public class SpellChecker {
         return bk;
     }
 
+    public static HashMap<String,Integer> getWordFrequency(Activity activity) throws Exception{
+        map.clear();
+        AssetManager assetManager=activity.getAssets();
+        getWordFrequencyFromTxt(map, assetManager.open(Config.WORDFREQUENCY));
+        return map;
+    }
+
     public static boolean checkWord(String string){
         char[] array=string.toCharArray();
         for(char ch : array){
@@ -69,22 +107,43 @@ public class SpellChecker {
         return true;
     }
 
-//    public static void main(String args[]) {
-//        int radius = 1.5; // 编辑距离阈值
-//        String term = "helli"; // 待纠错的词
+    public static void sortList(List<String> list, final HashMap<String,Integer> hashMap, final String term){
+        final HashMap<String,Integer> hashMap1=hashMap;
+        final String term1 = term;
+//        ArrayList<Integer> arrayList=new ArrayList<Integer>();
+//        HashMap<Integer,ArrayList<Integer>> length_list_map = new HashMap<Integer, ArrayList<Integer>>();
+//        for(String string : list){
+//            if(!arrayList.contains(string.length())){
+//                arrayList.add(string.length());
+//            }
+//            if(length_list_map.containsKey(string.length())){
 //
-//        // 创建BK树
-//        MetricSpace<String> ms = new LevensteinDistance();
-//        BKTree<String> bk = new BKTree<String>(ms);
+//            }
+//            else{
 //
-//        getWordsFromTxt(bk, Config.DICTIONARY);
-//
-//        Scanner cin=new Scanner(System.in);
-//        while(cin.hasNext()){
-//            radius=cin.nextInteger();
-//            term=cin.next();
-//            Set<String> set = bk.query(term, radius);
-//            System.out.println(set.toString());
+//            }
 //        }
-//    }
+
+        Collections.sort(list, new Comparator<String>() {
+            @Override
+            public int compare(String lhs, String rhs) {
+                if(lhs.equals(rhs))
+                    return 0;
+                if(lhs.length()!=rhs.length()){
+                    if(term1.length()==lhs.length())
+                        return -1;
+                    else if(term1.length()==rhs.length())
+                        return 1;
+                }
+                int num1 = hashMap1.containsKey(lhs)?hashMap1.get(lhs):Integer.MAX_VALUE;
+                int num2 = hashMap1.containsKey(rhs)?hashMap1.get(rhs):Integer.MAX_VALUE;
+                if(num1<num2)
+                    return -1;
+                else if(num1>num2)
+                    return 1;
+                else
+                    return lhs.compareTo(rhs);
+            }
+        });
+    }
 }

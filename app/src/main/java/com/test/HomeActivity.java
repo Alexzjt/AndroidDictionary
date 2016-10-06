@@ -12,6 +12,8 @@ import android.widget.EditText;
 import com.dataStructure.BKTree;
 import com.dataStructure.SpellChecker;
 
+import java.util.HashMap;
+
 /**
  * Created by zhangjingtao on 2016/9/30.
  */
@@ -20,6 +22,7 @@ public class HomeActivity extends Activity{
     EditText etConten;
     Button btnSearch;
     public static BKTree bkTree = null;
+    public static HashMap<String,Integer> wordFrequencyMap=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class HomeActivity extends Activity{
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                while(HomeActivity.bkTree==null){}
                 if (!TextUtils.isEmpty(etConten.getText())) {
                     Intent intent = new Intent();
                     intent.setClass(HomeActivity.this,DetailActivity.class);
@@ -49,6 +53,7 @@ public class HomeActivity extends Activity{
         protected Boolean doInBackground(Activity... params) {
             try{
                 bkTree=SpellChecker.getBKTree(params[0]);
+                wordFrequencyMap=SpellChecker.getWordFrequency(params[0]);
                 return true;
             }
             catch (Exception ex){
