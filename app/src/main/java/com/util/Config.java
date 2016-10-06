@@ -7,4 +7,5 @@ package com.util;
 public class Config {
     public static final String DICTIONARY="dictionary.txt";
     public static final int DISTANCE=KeyboardSingleton.getInstance().maxDistance;
+    public static final double SCORE_MIS_HIT = 0.1;
 }

@@ -9,14 +9,16 @@ import com.util.Config;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.List;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
 /**
  * BK树，可以用来进行拼写纠错查询
@@ -82,7 +84,7 @@ public class BKTree{
      * @return
      *         满足距离范围的所有元素
      */
-    public List<String> query(String term, int radius) {
+    public List<String> query(String term, double radius) {
 
         List<String> results = new LinkedList<String>();
 
@@ -91,7 +93,7 @@ public class BKTree{
         }
 
         if(radius!=0)
-            results.remove(term);  //若set中存在被查找的元素term，则删除之
+            results.remove(term);  //若list中存在被查找的元素term，则删除之
 
         return results;
     }
@@ -105,11 +107,11 @@ public class BKTree{
      *         满足距离范围的所有元素
      */
     public List<String> sorted_query(String term) {
-        int radius=Config.DISTANCE;
+        double radius=1;
         List<String> list=new LinkedList<String>();
         while(list.isEmpty()){
             list=query(term,radius);
-            radius+=Config.DISTANCE;
+            radius+=1;
         }
         return list;
     }
@@ -127,8 +129,8 @@ public class BKTree{
      * @return
      */
     public boolean contains(String target){
-        List<String> set=query(target,0);
-        return !set.isEmpty();
+        List<String> list=query(target,0);
+        return !list.isEmpty();
     }
 
     public String getMostSimilar(String term){
@@ -143,16 +145,16 @@ public class BKTree{
         /**
          *  用一个map存储子节点
          */
-        private final Map<Integer, Node> children;
+        private final Map<Double, Node> children;
 
         public Node(String term) {
             this.value = term;
-            this.children = new HashMap<Integer, BKTree.Node>();
+            this.children = new HashMap<Double, BKTree.Node>();
         }
 
         public void add(MetricSpace ms, String value) {
             // value与父节点的距离
-            Integer distance = ms.distance(this.value, value);
+            Double distance = ms.distance(this.value, value);
 
             // 距离为0，表示元素相同，返回
             if (distance == 0) {
@@ -172,9 +174,9 @@ public class BKTree{
             }
         }
 
-        public void query(MetricSpace ms, String term, int radius, List<String> results) {
+        public void query(MetricSpace ms, String term, double radius, List<String> results) {
 
-            int distance = ms.distance(this.value, term);
+            double distance = ms.distance(this.value, term);
 
             // 与父节点的距离小于阈值，则添加到结果集中，并继续向下寻找
             if (distance <= radius) {
@@ -184,7 +186,7 @@ public class BKTree{
             // 子节点的距离在最小距离和最大距离之间的。
             // 由度量空间的d(x,y) + d(y,z) >= d(x,z)这一定理，有查找的value与子节点的距离范围如下：
             // min = {1,distance -radius}, max = distance + radius
-            for (int i = Math.max(distance - radius, 1); i <= distance + radius; ++i) {
+            for (double i = Math.max(distance - radius, 0.1); i <= distance + radius; ++i) {
 
                 Node child = children.get(i);
 

@@ -1,7 +1,8 @@
 package com.dataStructure;
-
 import com.util.Config;
-import com.util.KeyboardSingleton;
+
+import java.util.HashMap;
+import java.util.Map;
 /**
  * Created by zhangjingtao on 2016/9/30.
  */
@@ -14,29 +15,66 @@ import com.util.KeyboardSingleton;
  *
  */
 public class LevensteinDistance implements MetricSpace{
-    private int insertCost = Config.DISTANCE;       // 插入的距离
-    private int deleteCost = Config.DISTANCE;       // 删除的距离
-    private int substitudeCost(char char1,char char2){     //替换的距离
-        return KeyboardSingleton.getInstance().getDistance(char1,char2);
+    private double insertCost = 1;       // 插入的距离
+    private double deleteCost = 1;       // 删除的距离
+    private static final Map<Character, String> charSiblings;
+    static {
+        charSiblings = new HashMap<Character, String>();
+        charSiblings.put('q', "was");
+        charSiblings.put('w', "qsead");
+        charSiblings.put('e', "wsdfr");
+        charSiblings.put('r', "edfgt");
+        charSiblings.put('t', "rfghy");
+        charSiblings.put('y', "tghju");
+        charSiblings.put('u', "yhjki");
+        charSiblings.put('i', "ujklo");
+        charSiblings.put('o', "ikl;p");
+        charSiblings.put('p', "ol;'[");
+        charSiblings.put('a', "qwsxz");
+        charSiblings.put('s', "qazxcdew");
+        charSiblings.put('d', "wsxcvfre");
+        charSiblings.put('f', "edcvbgtr");
+        charSiblings.put('g', "rfvbnhyt");
+        charSiblings.put('h', "tgbnmjuy");
+        charSiblings.put('j', "yhnm,kiu");
+        charSiblings.put('k', "ujm,.loi");
+        charSiblings.put('l', "ik,./;po");
+        charSiblings.put('z', "asx");
+        charSiblings.put('x', "zasdc");
+        charSiblings.put('c', "xsdfv");
+        charSiblings.put('v', "cdfgb");
+        charSiblings.put('b', "vfghn");
+        charSiblings.put('n', "bghjm");
+        charSiblings.put('m', "nhjk,");
+    }
+    private double substitudeCost(char char1,char char2){     //替换的距离
+        if (char1 == char2) {
+            return 0;
+        }
+        String s = charSiblings.get(char2);
+        if (s != null && s.indexOf(char2) > -1) {
+            return Config.SCORE_MIS_HIT;
+        }
+        return 1;
     }
 
-    public int computeDistance(String target,String source){
+    public double computeDistance(String target,String source){
         int n = target.trim().length();
         int m = source.trim().length();
 
-        int[][] distance = new int[n+1][m+1];
+        double[][] distance = new double[n+1][m+1];
 
         distance[0][0] = 0;
         for(int i = 1; i <= m; i++){
-            distance[0][i] = i*Config.DISTANCE;
+            distance[0][i] = i;
         }
         for(int j = 1; j <= n; j++){
-            distance[j][0] = j*Config.DISTANCE;
+            distance[j][0] = j;
         }
 
         for(int i = 1; i <= n; i++){
             for(int j = 1; j <=m; j++){
-                int min = distance[i-1][j] + insertCost;
+                double min = distance[i-1][j] + insertCost;
 
                 if(target.charAt(i-1) == source.charAt(j-1)){
                     if(min > distance[i-1][j-1])
@@ -58,7 +96,7 @@ public class LevensteinDistance implements MetricSpace{
     }
 
     @Override
-    public int distance(String a, String b) {
+    public double distance(String a, String b) {
         return computeDistance(a,b);
     }
 
