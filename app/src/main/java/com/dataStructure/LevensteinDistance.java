@@ -12,15 +12,15 @@ package com.dataStructure;
  *
  */
 public class LevensteinDistance implements MetricSpace<String>{
-    private double insertCost = 1;       // 可以写成插入的函数，做更精细化处理
-    private double deleteCost = 1;       // 可以写成删除的函数，做更精细化处理
-    private double substitudeCost = 1; // 可以写成替换的函数，做更精细化处理。比如使用键盘距离。
+    private int insertCost = 1;       // 可以写成插入的函数，做更精细化处理
+    private int deleteCost = 1;       // 可以写成删除的函数，做更精细化处理
+    private int substitudeCost = 1; // 可以写成替换的函数，做更精细化处理。比如使用键盘距离。
 
-    public double computeDistance(String target,String source){
+    public int computeDistance(String target,String source){
         int n = target.trim().length();
         int m = source.trim().length();
 
-        double[][] distance = new double[n+1][m+1];
+        int[][] distance = new int[n+1][m+1];
 
         distance[0][0] = 0;
         for(int i = 1; i <= m; i++){
@@ -32,7 +32,7 @@ public class LevensteinDistance implements MetricSpace<String>{
 
         for(int i = 1; i <= n; i++){
             for(int j = 1; j <=m; j++){
-                double min = distance[i-1][j] + insertCost;
+                int min = distance[i-1][j] + insertCost;
 
                 if(target.charAt(i-1) == source.charAt(j-1)){
                     if(min > distance[i-1][j-1])
@@ -54,7 +54,7 @@ public class LevensteinDistance implements MetricSpace<String>{
     }
 
     @Override
-    public double distance(String a, String b) {
+    public int distance(String a, String b) {
         return computeDistance(a,b);
     }
 

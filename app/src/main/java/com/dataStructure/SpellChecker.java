@@ -70,7 +70,7 @@ public class SpellChecker {
     }
 
 //    public static void main(String args[]) {
-//        double radius = 1.5; // 编辑距离阈值
+//        int radius = 1.5; // 编辑距离阈值
 //        String term = "helli"; // 待纠错的词
 //
 //        // 创建BK树
@@ -81,7 +81,7 @@ public class SpellChecker {
 //
 //        Scanner cin=new Scanner(System.in);
 //        while(cin.hasNext()){
-//            radius=cin.nextDouble();
+//            radius=cin.nextInteger();
 //            term=cin.next();
 //            Set<String> set = bk.query(term, radius);
 //            System.out.println(set.toString());

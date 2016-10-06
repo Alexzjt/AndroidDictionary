@@ -99,7 +99,7 @@ public class BKTree<T>{
      * @return
      *         满足距离范围的所有元素
      */
-    public Set<T> query(T term, double radius) {
+    public Set<T> query(T term, int radius) {
 
         Set<T> results = new HashSet<T>();
 
@@ -123,7 +123,7 @@ public class BKTree<T>{
      * @return
      *         满足距离范围的所有元素
      */
-    public List<T> sorted_query(T term, double radius) {
+    public List<T> sorted_query(T term, int radius) {
 
         Set<T> results = new HashSet<T>();
         while(results.isEmpty()){
@@ -162,16 +162,16 @@ public class BKTree<T>{
         /**
          *  用一个map存储子节点
          */
-        private final Map<Double, Node<T>> children;
+        private final Map<Integer, Node<T>> children;
 
         public Node(T term) {
             this.value = term;
-            this.children = new HashMap<Double, BKTree.Node<T>>();
+            this.children = new HashMap<Integer, BKTree.Node<T>>();
         }
 
         public void add(MetricSpace<T> ms, T value) {
             // value与父节点的距离
-            Double distance = ms.distance(this.value, value);
+            Integer distance = ms.distance(this.value, value);
 
             // 距离为0，表示元素相同，返回
             if (distance == 0) {
@@ -191,9 +191,9 @@ public class BKTree<T>{
             }
         }
 
-        public void query(MetricSpace<T> ms, T term, double radius, Set<T> results) {
+        public void query(MetricSpace<T> ms, T term, int radius, Set<T> results) {
 
-            double distance = ms.distance(this.value, term);
+            int distance = ms.distance(this.value, term);
 
             // 与父节点的距离小于阈值，则添加到结果集中，并继续向下寻找
             if (distance <= radius) {
@@ -203,7 +203,7 @@ public class BKTree<T>{
             // 子节点的距离在最小距离和最大距离之间的。
             // 由度量空间的d(x,y) + d(y,z) >= d(x,z)这一定理，有查找的value与子节点的距离范围如下：
             // min = {1,distance -radius}, max = distance + radius
-            for (double i = Math.max(distance - radius, 1); i <= distance + radius; ++i) {
+            for (int i = Math.max(distance - radius, 1); i <= distance + radius; ++i) {
 
                 Node<T> child = children.get(i);
 

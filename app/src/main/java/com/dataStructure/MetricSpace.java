@@ -6,6 +6,6 @@ package com.dataStructure;
 
 public interface MetricSpace<T> {
 
-    double distance(T a, T b);
+    int distance(T a, T b);
 
 }
