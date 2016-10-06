@@ -21,8 +21,8 @@ import java.util.Set;
  * 拼写纠错
  */
 public class SpellChecker {
-    private static MetricSpace<String> ms = new LevensteinDistance();
-    private static BKTree<String> bk = new BKTree<String>(ms);
+    private static MetricSpace ms = new LevensteinDistance();
+    private static BKTree bk = new BKTree(ms);
 
 
     /**
@@ -30,7 +30,7 @@ public class SpellChecker {
      * @param bk
      * @param inputStream
      */
-    private static void getWordsFromTxt(BKTree<String> bk, InputStream inputStream){
+    private static void getWordsFromTxt(BKTree bk, InputStream inputStream){
 
 
         BufferedReader reader=null;
@@ -52,7 +52,7 @@ public class SpellChecker {
         }
     }
 
-    public static BKTree<String> getBKTree(Activity activity) throws Exception{
+    public static BKTree getBKTree(Activity activity) throws Exception{
         bk.clear();
         AssetManager assetManager=activity.getAssets();
         getWordsFromTxt(bk, assetManager.open(Config.DICTIONARY));

@@ -19,7 +19,7 @@ public class HomeActivity extends Activity{
 
     EditText etConten;
     Button btnSearch;
-    public static BKTree<String> bkTree = null;
+    public static BKTree bkTree = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

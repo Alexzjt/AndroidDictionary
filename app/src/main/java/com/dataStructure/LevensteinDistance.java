@@ -12,7 +12,7 @@ import com.util.Config;
  * 使用动态规划算法。算法复杂度：m*n。
  *
  */
-public class LevensteinDistance implements MetricSpace<String>{
+public class LevensteinDistance implements MetricSpace{
     private int insertCost = 1;       // 可以写成插入的函数，做更精细化处理
     private int deleteCost = 1;       // 可以写成删除的函数，做更精细化处理
     private int substitudeCost = 1; // 可以写成替换的函数，做更精细化处理。比如使用键盘距离。

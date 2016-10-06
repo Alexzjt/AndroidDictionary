@@ -49,31 +49,13 @@ import java.util.Set;
  *    并且距离为2的查询的搜索距离不会超过树的17-25%。
  *
  */
-public class BKTree<T>{
-    private final MetricSpace<T> metricSpace;
+public class BKTree{
+    private final MetricSpace metricSpace;
 
-    private Node<T> root;
+    private Node root;
 
-    public BKTree(MetricSpace<T> metricSpace) {
+    public BKTree(MetricSpace metricSpace) {
         this.metricSpace = metricSpace;
-    }
-
-    /**
-     * 根据某一个集合元素创建BK树
-     *
-     * @param ms
-     * @param elems
-     * @return
-     */
-    public static <E> BKTree<E> mkBKTree(MetricSpace<E> ms, Collection<E> elems) {
-
-        BKTree<E> bkTree = new BKTree<E>(ms);
-
-        for (E elem : elems) {
-            bkTree.put(elem);
-        }
-
-        return bkTree;
     }
 
     /**
@@ -81,9 +63,9 @@ public class BKTree<T>{
      *
      * @param term
      */
-    public void put(T term) {
+    public void put(String term) {
         if (root == null) {
-            root = new Node<T>(term);
+            root = new Node(term);
         } else {
             root.add(metricSpace, term);
         }
@@ -99,9 +81,9 @@ public class BKTree<T>{
      * @return
      *         满足距离范围的所有元素
      */
-    public Set<T> query(T term, int radius) {
+    public Set<String> query(String term, int radius) {
 
-        Set<T> results = new HashSet<T>();
+        Set<String> results = new HashSet<String>();
 
         if (root != null) {
             root.query(metricSpace, term, radius, results);
@@ -123,13 +105,13 @@ public class BKTree<T>{
      * @return
      *         满足距离范围的所有元素
      */
-    public List<T> sorted_query(T term, int radius) {
+    public List<String> sorted_query(String term, int radius) {
 
-        Set<T> results = new HashSet<T>();
+        Set<String> results = new HashSet<String>();
         while(results.isEmpty()){
             results=query(term,radius++);
         }
-        List<T> list=new ArrayList<T>(results);
+        List<String> list=new ArrayList<String>(results);
         return list;
     }
 
@@ -145,31 +127,31 @@ public class BKTree<T>{
      * @param target
      * @return
      */
-    public boolean contains(T target){
-        Set<T> set=query(target,0);
+    public boolean contains(String target){
+        Set set=query(target,0);
         return !set.isEmpty();
     }
 
-    public T getMostSimilar(T term){
-        List<T> list = sorted_query(term,1);
+    public String getMostSimilar(String term){
+        List<String> list = sorted_query(term,1);
         return list.get(0);
     }
 
-    private static final class Node<T> {
+    private static final class Node {
 
-        private final T value;
+        private final String value;
 
         /**
          *  用一个map存储子节点
          */
-        private final Map<Integer, Node<T>> children;
+        private final Map<Integer, Node> children;
 
-        public Node(T term) {
+        public Node(String term) {
             this.value = term;
-            this.children = new HashMap<Integer, BKTree.Node<T>>();
+            this.children = new HashMap<Integer, BKTree.Node>();
         }
 
-        public void add(MetricSpace<T> ms, T value) {
+        public void add(MetricSpace ms, String value) {
             // value与父节点的距离
             Integer distance = ms.distance(this.value, value);
 
@@ -179,19 +161,19 @@ public class BKTree<T>{
             }
 
             // 从父节点的子节点中查找child，满足距离为distance
-            Node<T> child = children.get(distance);
+            Node child = children.get(distance);
 
 
             if (child == null) {
                 // 若距离父节点为distance的子节点不存在，则直接添加一个新的子节点
-                children.put(distance, new Node<T>(value));
+                children.put(distance, new Node(value));
             } else {
                 // 若距离父节点为distance子节点存在，则递归的将value添加到该子节点下
                 child.add(ms, value);
             }
         }
 
-        public void query(MetricSpace<T> ms, T term, int radius, Set<T> results) {
+        public void query(MetricSpace ms, String term, int radius, Set results) {
 
             int distance = ms.distance(this.value, term);
 
@@ -205,7 +187,7 @@ public class BKTree<T>{
             // min = {1,distance -radius}, max = distance + radius
             for (int i = Math.max(distance - radius, 1); i <= distance + radius; ++i) {
 
-                Node<T> child = children.get(i);
+                Node child = children.get(i);
 
                 // 递归调用
                 if (child != null) {
