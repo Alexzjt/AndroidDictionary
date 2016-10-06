@@ -26,7 +26,7 @@
         <Button
             android:id="@+id/btn_search"
             android:layout_width="60dp"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:padding="0dp"
             android:text="搜索"
             android:textSize="20dp"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:text="详细释义："
         android:textColor="@android:color/black"
-        android:textSize="18dp"
+        android:textSize="20dp"
         android:layout_marginTop="20dp"
         />
     <TextView
@@ -46,6 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:textSize="20dp"
         android:text="这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义这里是释义"
         android:textColor="#000000"
         android:gravity="center"
@@ -56,14 +57,15 @@
         android:layout_height="wrap_content"
         android:text="您想找的单词有可能是："
         android:textColor="@android:color/black"
-        android:textSize="18dp"
+        android:textSize="20dp"
         android:layout_marginTop="10dp"
         />
     <Button
         android:id="@+id/btn_first"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:text="这里是备选词"
+        android:textSize="20dp"
         android:gravity="center"
         android:layout_gravity="center"
         android:textColor="@android:color/holo_blue_bright"
@@ -74,8 +76,9 @@
     <Button
         android:id="@+id/btn_more"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:text="   获取更多候选词   "
+        android:textSize="20dp"
         android:gravity="center"
         android:layout_gravity="center"
         android:textColor="@android:color/holo_blue_bright"

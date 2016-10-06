@@ -95,7 +95,7 @@ public class DetailActivity extends Activity {
     private class MyTask extends AsyncTask<String, Integer, String> {
         @Override
         protected void onPreExecute() {
-            tvDetail.setText("正在获取释义");
+            tvDetail.setText("正在获取释义…………");
         }
 
         @Override
