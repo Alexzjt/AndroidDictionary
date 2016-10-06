@@ -1,6 +1,7 @@
 package com.dataStructure;
 
 import com.util.Config;
+import com.util.KeyboardSingleton;
 /**
  * Created by zhangjingtao on 2016/9/30.
  */
@@ -12,10 +13,12 @@ import com.util.Config;
  * 使用动态规划算法。算法复杂度：m*n。
  *
  */
-public class LevensteinDistance implements MetricSpace<String>{
-    private int insertCost = 1;       // 可以写成插入的函数，做更精细化处理
-    private int deleteCost = 1;       // 可以写成删除的函数，做更精细化处理
-    private int substitudeCost = 1; // 可以写成替换的函数，做更精细化处理。比如使用键盘距离。
+public class LevensteinDistance implements MetricSpace{
+    private int insertCost = Config.DISTANCE;       // 插入的距离
+    private int deleteCost = Config.DISTANCE;       // 删除的距离
+    private int substitudeCost(char char1,char char2){     //替换的距离
+        return KeyboardSingleton.getInstance().getDistance(char1,char2);
+    }
 
     public int computeDistance(String target,String source){
         int n = target.trim().length();
@@ -25,10 +28,10 @@ public class LevensteinDistance implements MetricSpace<String>{
 
         distance[0][0] = 0;
         for(int i = 1; i <= m; i++){
-            distance[0][i] = i;
+            distance[0][i] = i*Config.DISTANCE;
         }
         for(int j = 1; j <= n; j++){
-            distance[j][0] = j;
+            distance[j][0] = j*Config.DISTANCE;
         }
 
         for(int i = 1; i <= n; i++){
@@ -39,8 +42,8 @@ public class LevensteinDistance implements MetricSpace<String>{
                     if(min > distance[i-1][j-1])
                         min = distance[i-1][j-1];
                 }else{
-                    if(min > distance[i-1][j-1] + substitudeCost)
-                        min = distance[i-1][j-1] + substitudeCost;
+                    if(min > distance[i-1][j-1] + substitudeCost(target.charAt(i-1),source.charAt(j-1)))
+                        min = distance[i-1][j-1] + substitudeCost(target.charAt(i-1),source.charAt(j-1));
                 }
 
                 if(min > distance[i][j-1] + deleteCost){

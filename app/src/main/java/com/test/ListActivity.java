@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.util.Config;
+
 /**
  * Created by zhangjingtao on 2016/9/30.
  */
@@ -55,7 +57,7 @@ public class ListActivity extends Activity {
         String string=getIntent().getExtras().getString("content");
         etConten.setText(string);
 
-        lvList.setAdapter(new ArrayAdapter<String>(this,R.layout.item_list,HomeActivity.bkTree.sorted_query(string,1)));
+        lvList.setAdapter(new ArrayAdapter<String>(this,R.layout.item_list,HomeActivity.bkTree.sorted_query(string)));
     }
 
     @Override
@@ -63,7 +65,7 @@ public class ListActivity extends Activity {
         super.onResume();
         String string=getIntent().getExtras().getString("content");
         etConten.setText(string);
-        lvList.setAdapter(new ArrayAdapter<String>(this,R.layout.item_list,HomeActivity.bkTree.sorted_query(string,1)));
+        lvList.setAdapter(new ArrayAdapter<String>(this,R.layout.item_list,HomeActivity.bkTree.sorted_query(string)));
     }
 
 }

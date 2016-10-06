@@ -50,7 +50,10 @@ public class KeyboardSingleton {
         char2=downCase(char2);
         String string = char1<char2?String.valueOf(char1)+String.valueOf(char2)
                 :String.valueOf(char2)+String.valueOf(char1);
-        return distanceMap.get(string);
+        if(distanceMap.containsKey(string))
+            return distanceMap.get(string);
+        else
+            return maxDistance;
     }
 
     private char downCase(char char1){
