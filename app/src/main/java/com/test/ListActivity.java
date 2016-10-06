@@ -26,7 +26,7 @@ public class ListActivity extends Activity{
     EditText etConten;
     Button btnSearch;
     Button btnMore;
-    List<String> list=new ArrayList<String>();
+    ArrayList<String> list=new ArrayList<String>();
     ArrayAdapter<String> adapter;
 
     @Override
@@ -67,9 +67,9 @@ public class ListActivity extends Activity{
             @Override
             public void onClick(View v) {
                 String string=getIntent().getExtras().getString("content");
-                List<String> temp = HomeActivity.bkTree.sorted_query(string,radius++);
+                ArrayList<String> temp = HomeActivity.bkTree.sorted_query(string,radius++);
                 SpellChecker.sortList(temp,HomeActivity.wordFrequencyMap,string);
-                list.addAll(temp);
+                SpellChecker.addAllWithoutRepeat(list,temp,string);
                 //list.clear();
                 adapter.notifyDataSetChanged();
                 lvList.setAdapter(adapter);

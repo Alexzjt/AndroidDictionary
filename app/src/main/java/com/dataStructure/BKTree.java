@@ -105,13 +105,13 @@ public class BKTree{
      * @return
      *         满足距离范围的所有元素
      */
-    public List<String> sorted_query(String term, int radius) {
+    public ArrayList<String> sorted_query(String term, int radius) {
 
         Set<String> results = new HashSet<String>();
         while(results.isEmpty()){
             results=query(term,radius++);
         }
-        List<String> list=new ArrayList<String>(results);
+        ArrayList<String> list=new ArrayList<String>(results);
         return list;
     }
 

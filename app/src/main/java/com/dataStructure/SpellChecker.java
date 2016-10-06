@@ -146,4 +146,14 @@ public class SpellChecker {
             }
         });
     }
+
+    public static void addAllWithoutRepeat(ArrayList<String> list1,ArrayList<String> list2,String term){
+        list1.ensureCapacity(list1.size()+list2.size());
+        for(String string : list2){
+            if(!list1.contains(string)){
+                list1.add(string);
+            }
+        }
+        list1.remove(term);
+    }
 }
