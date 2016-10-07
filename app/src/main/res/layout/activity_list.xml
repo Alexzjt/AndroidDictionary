@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:text="下面是候选单词列表："
         android:textColor="@android:color/black"
-        android:textSize="18dp"
+        android:textSize="20dp"
         android:layout_marginTop="20dp"
         />
 
@@ -58,5 +58,6 @@
         android:layout_gravity="center"
         android:textColor="@android:color/holo_blue_bright"
         android:padding="0dp"
+        android:layout_marginBottom="5dp"
         />
 </LinearLayout>

@@ -8,9 +8,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dataStructure.BKTree;
 import com.dataStructure.SpellChecker;
+
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 
@@ -21,6 +24,7 @@ public class HomeActivity extends Activity{
 
     EditText etConten;
     Button btnSearch;
+    TextView tip;
     public static BKTree bkTree = null;
     public static HashMap<String,Integer> wordFrequencyMap=null;
 
@@ -31,7 +35,7 @@ public class HomeActivity extends Activity{
 
         etConten = (EditText) findViewById(R.id.et_content);
         btnSearch = (Button) findViewById(R.id.btn_search);
-
+        tip=(TextView)  findViewById(R.id.tip);
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +54,11 @@ public class HomeActivity extends Activity{
     }
     private class MyTask extends AsyncTask<Activity, Integer,Boolean> {
         @Override
+        protected void onPreExecute() {
+            tip.setText("  正在为您缓慢加载数据…………  ");
+        }
+
+        @Override
         protected Boolean doInBackground(Activity... params) {
             try{
                 bkTree=SpellChecker.getBKTree(params[0]);
@@ -60,6 +69,11 @@ public class HomeActivity extends Activity{
                 ex.printStackTrace();
             }
             return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            tip.setText("");
         }
     }
 }
