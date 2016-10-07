@@ -4,45 +4,41 @@ package com.translate;
  * Created by zhangjingtao on 2016/9/30.
  */
 
-import com.myMD5.MD5Util;
+import com.util.MD5Util;
+import com.util.Config;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * 百度翻译引擎java示例代码
+ * 调用百度翻译API，重写代码以适配Android环境
  */
 public class BaiduTranslateDemo {
     private static final BaiduTranslateDemo baiduTranslateDemo = new BaiduTranslateDemo();
 
     private static final String UTF8 = "utf-8";
     private static final String requestMethod="POST";
-    //申请者开发者id，实际使用时请修改成开发者自己的appid
-    private static final String appId = "20160928000029493";
+    //申请者开发者id
+    private static final String appId = Config.APPID;
 
-    //申请成功后的证书token，实际使用时请修改成开发者自己的token
-    private static final String token = "EimvmT0tBnwcEvVgX08q";
+    //token
+    private static final String token = Config.TOKEN;
 
-    private static final String url = "http://api.fanyi.baidu.com/api/trans/vip/translate";
+    private static final String url = Config.BAIDU;
 
-    //随机数，用于生成md5值，开发者使用时请激活下边第四行代码
+    //随机数，用于生成md5值
     private static final Random random = new Random();
 
     public String translate(String q, String from, String to) throws Exception {
         //用于md5加密
         int salt = random.nextInt(10000);
-        //本演示使用指定的随机数为1435660288
-        //int salt = 1435660288;
 
         // 对appId+源文+随机数+token计算md5值
         StringBuilder md5String = new StringBuilder();
@@ -69,7 +65,7 @@ public class BaiduTranslateDemo {
                 result.append(str).append("\n");
             }
 
-            //转化为json对象，注：Json解析的jar包可选其它
+            //转化为json对象
             JSONObject resultJson = new JSONObject(result.toString());
             try {
                 String error_code = resultJson.getString("error_code");
@@ -90,10 +86,7 @@ public class BaiduTranslateDemo {
         return text;
     }
 
-    //实际抛出异常由开发者自己处理
     public static String translateToEn(String q) throws Exception {
-        //ApplicationContext container=new FileSystemXmlApplicationContext("src//spring//resource//baidu.xml");
-        //BaiduTranslateDemo baidu = (BaiduTranslateDemo)container.getBean("baidu");
 
         String result = null;
 
@@ -103,8 +96,7 @@ public class BaiduTranslateDemo {
     }
 
     public static String translateToChinese(String q) throws Exception {
-        //ApplicationContext container=new FileSystemXmlApplicationContext("src//spring//resource//baidu.xml");
-        //BaiduTranslateDemo baidu = (BaiduTranslateDemo)container.getBean("baidu");
+
 
         String result = null;
 

@@ -1,7 +1,8 @@
-package com.myMD5;
+package com.util;
 
 /**
  * Created by zhangjingtao on 2016/9/30.
+ * 用于计算MD5
  */
 
 import java.security.MessageDigest;
@@ -31,9 +32,5 @@ public class MD5Util {
             e.printStackTrace();
             return null;
         }
-    }
-    public static void main(String[] args) {
-        System.out.println(MD5Util.MD5("20121221"));
-        System.out.println(MD5Util.MD5("加密"));
     }
 }
